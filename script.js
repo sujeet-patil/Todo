@@ -21,26 +21,43 @@ function addTodo(todo){
   }
   if(todoText){
     const todoEl = document.createElement("li");
+    const todoDiv = document.createElement("div");
+    todoDiv.classList.add("task");
+    const remDiv = document.createElement("div");
+
     if(todo && todo.isCompleted){
-      todoEl.classList.add("completed");
+      todoDiv.classList.add("completed");
     }
-    todoEl.innerText = todoText;
-    todoEl.addEventListener("click", () =>{
-      todoEl.classList.toggle("completed");
+
+    todoDiv.innerText = todoText;
+    remDiv.classList.add("fa");
+    remDiv.classList.add("fa-close");
+    todoDiv.addEventListener("click", () =>{
+      todoDiv.classList.toggle("completed");
       updateLS();
     })
+
     todoEl.addEventListener("contextmenu", (e)=>{
       e.preventDefault();
 
       todoEl.remove();
       updateLS();
     })
+
+    remDiv.addEventListener('click', ()=>{
+      todoEl.remove();
+      updateLS();
+    })
+
+    todoEl.appendChild(todoDiv);
+    todoEl.appendChild(remDiv);
     todosUL.appendChild(todoEl);
     input.value="";
     updateLS();
   }}
+
 function updateLS(){
-  const todosEls = document.querySelectorAll("li");
+  const todosEls = document.querySelectorAll(".task");
   const todos = [];
   todosEls.forEach(todoEl => {
     todos.push({
